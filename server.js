@@ -1,58 +1,76 @@
 require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
+const MySQLStore = require('express-mysql-session')(session);
 const passport = require('./controllers/passport-discord');
 const authRoutes = require('./routes/auth');
 const { connectToDatabase } = require('./config/database');
-const User = require('./models/user')
+const User = require('./models/user');
 const cors = require('cors');
+const { parse } = require('url');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 const allowedOrigins = [
-    'http://localhost:4000',
-    'https://TenkaiStudio.com:4040'
-  ];
+  'http://localhost:4000',
+  'https://TenkaiStudio.com:4040'
+];
 
-  app.use(cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
-    },
-    credentials: true,
-  }));
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+}));
+
 app.use(express.json());
 
-// Session config (3 days)
+// 🧠 Parse MySQL connection URL
+const dbUrl = new URL(process.env.DATABASE_URL);
+const sessionStore = new MySQLStore({
+  host: dbUrl.hostname,
+  port: dbUrl.port,
+  user: dbUrl.username,
+  password: dbUrl.password,
+  database: dbUrl.pathname.replace('/', ''),
+});
+
+// 🛡️ Use session with MySQLStore
 app.use(session({
+  key: 'discord.sid',
   secret: process.env.SESSION_SECRET,
+  store: sessionStore,
   resave: false,
   saveUninitialized: false,
   cookie: {
     maxAge: 1000 * 60 * 60 * 24 * 3, // 3 days
+    secure: false, // set true if using HTTPS
+    httpOnly: true,
   }
 }));
 
-// Passport setup
+// 🛂 Passport setup
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Routes
+// 🔐 Routes
 app.use('/auth', authRoutes);
 
-// Test route
+// ✅ Protected route
 app.get('/dashboard', (req, res) => {
   if (!req.isAuthenticated()) return res.status(401).send('Not logged in');
   res.send(`Welcome ${req.user.discordId}`);
 });
 
+// 🔌 DB sync + server start
 connectToDatabase().then(async () => {
-    await User.sync({ alter: true }); // This will create or update the table
-    app.listen(PORT, () => {
-      console.log(`🚀 Server running at http://localhost:${PORT}`);
-    });
+  await User.sync({ alter: true });
+  app.listen(PORT, () => {
+    console.log(`🚀 Server running at http://localhost:${PORT}`);
   });
+});

@@ -21,14 +21,17 @@
   "dependencies": {
     "@sequelize/mariadb": "^7.0.0-alpha.46",
     "@sequelize/mysql": "^7.0.0-alpha.46",
+    "connect-redis": "^8.0.3",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
+    "express-mysql-session": "^3.0.3",
     "express-session": "^1.18.1",
     "mariadb": "^3.4.1",
     "passport": "^0.7.0",
     "passport-discord": "^0.1.4",
     "passport-oauth2-refresh": "^2.2.0",
+    "redis": "^4.7.0",
     "sequelize": "^6.37.7"
   },
   "devDependencies": {
