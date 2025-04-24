@@ -74,7 +74,3 @@ Feel free to open issues or submit pull requests. Contributions are welcome as t
 This project is licensed under the [MIT License](LICENSE).
 
 ---
-
-```
-
-```
