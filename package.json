@@ -1,0 +1,20 @@
+{
+  "name": "tenkaistudio_backend",
+  "version": "1.0.0",
+  "description": "Backend communication for frontend, Spotify Webapp connection, Discord User Regestration",
+  "homepage": "https://github.com/AboutSelphy/TenkaiStudio-Backend#readme",
+  "bugs": {
+    "url": "https://github.com/AboutSelphy/TenkaiStudio-Backend/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/AboutSelphy/TenkaiStudio-Backend.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
