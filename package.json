@@ -15,7 +15,8 @@
   "type": "commonjs",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
   "dependencies": {
     "@sequelize/mariadb": "^7.0.0-alpha.46",
@@ -29,5 +30,8 @@
     "passport-discord": "^0.1.4",
     "passport-oauth2-refresh": "^2.2.0",
     "sequelize": "^6.37.7"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
   }
 }
