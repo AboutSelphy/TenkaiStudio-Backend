@@ -19,7 +19,7 @@ const PORT = process.env.PORT || 4000;
 const allowedOrigins = [
   'http://localhost:4000',
   'http://localhost:3000',
-  'https://TenkaiStudio.com:3000',
+  'https://tenkaiStudio.com:3000',
   'https://api.TenkaiStudio.com:4000'
 ];
 
