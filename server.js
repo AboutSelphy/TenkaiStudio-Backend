@@ -4,17 +4,22 @@ const session = require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
 const passport = require('./controllers/passport-discord');
 const authRoutes = require('./routes/auth');
+const profileRoutes = require('./routes/profile');
 const { connectToDatabase } = require('./config/database');
 const User = require('./models/user');
 const cors = require('cors');
 const { parse } = require('url');
 
+
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
+
+
 
 const allowedOrigins = [
   'http://localhost:4000',
-  'https://TenkaiStudio.com:4040'
+  'https://TenkaiStudio.com:3000',
+  'https://api.TenkaiStudio.com:4000'
 ];
 
 app.use(cors({
@@ -24,9 +29,19 @@ app.use(cors({
     } else {
       callback(new Error('Not allowed by CORS'));
     }
+    
   },
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   credentials: true,
 }));
+
+app.get('/health', (req, res) => {
+  res.status(200).json({
+    status: 'ok',
+    uptime: process.uptime(),
+    timestamp: new Date(),
+  });
+});
 
 app.use(express.json());
 
@@ -62,10 +77,8 @@ app.use(passport.session());
 app.use('/auth', authRoutes);
 
 // ✅ Protected route
-app.get('/dashboard', (req, res) => {
-  if (!req.isAuthenticated()) return res.status(401).send('Not logged in');
-  res.send(`Welcome ${req.user.discordId}`);
-});
+app.use('/profile', profileRoutes);
+
 
 // 🔌 DB sync + server start
 connectToDatabase().then(async () => {

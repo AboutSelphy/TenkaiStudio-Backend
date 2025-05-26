@@ -6,7 +6,7 @@ const passport = require('../controllers/passport-discord');
 router.get('/discord', (req, res, next) => {
   if (req.isAuthenticated && req.isAuthenticated()) {
     // ✅ User is already logged in — redirect instead of reauthenticating
-    return res.redirect('/dashboard');
+    return res.redirect('/');
   }
 
   // 🚀 Not logged in — continue to Discord OAuth
@@ -17,13 +17,13 @@ router.get('/discord', (req, res, next) => {
 router.get('/discord/callback', (req, res, next) => {
   passport.authenticate('discord', (err, user, info) => {
     if (err) return next(err);
-    if (!user) return res.redirect('/'); // Failed auth — redirect home or error page
+    if (!user) return res.redirect('http://tenkaistudio.com/login/error'); // Failed auth — redirect home or error page
 
     req.logIn(user, (err) => {
-      if (err) return res.redirect('/'); // Handle login failure similarly
+      if (err) return res.redirect('http://tenkaistudio.com/login/error');  // Handle login failure similarly
 
       // ✅ Force redirect to dashboard
-      return res.redirect('/dashboard');
+      return res.redirect('http://tenkaistudio.com/dashboard');
     });
   })(req, res, next);
 });
