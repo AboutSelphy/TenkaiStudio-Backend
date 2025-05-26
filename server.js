@@ -18,6 +18,7 @@ const PORT = process.env.PORT || 4000;
 
 const allowedOrigins = [
   'http://localhost:4000',
+  'http://localhost:3000',
   'https://TenkaiStudio.com:3000',
   'https://api.TenkaiStudio.com:4000'
 ];
@@ -64,8 +65,9 @@ app.use(session({
   saveUninitialized: false,
   cookie: {
     maxAge: 1000 * 60 * 60 * 24 * 3, // 3 days
-    secure: false, // set true if using HTTPS
+    secure: true, // set true if using HTTPS
     httpOnly: true,
+    domain: '.tenkaistudio.com'
   }
 }));
 
