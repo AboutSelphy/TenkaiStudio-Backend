@@ -25,14 +25,15 @@ const allowedOrigins = [
 
 app.use(cors({
   origin: function (origin, callback) {
-  console.log('Incoming origin:', origin);
+  console.log('Incoming origin:', origin, '| Method:', req.method);
   if (!origin || allowedOrigins.includes(origin)) {
     callback(null, true);
   } else {
     console.error('Blocked by CORS:', origin);
     callback(new Error('Not allowed by CORS'));
   }
-},
+}
+,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   credentials: true,
 }));
@@ -65,11 +66,13 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   cookie: {
-    maxAge: 1000 * 60 * 60 * 24 * 3, // 3 days
-    secure: true, // set true if using HTTPS
-    httpOnly: true,
-    domain: '.tenkaistudio.com'
-  }
+  maxAge: 1000 * 60 * 60 * 24 * 3,
+  secure: true,
+  httpOnly: true,
+  domain: '.tenkaistudio.com',
+  sameSite: 'none' // ✅ IMPORTANT for cross-domain
+}
+
 }));
 
 // 🛂 Passport setup
