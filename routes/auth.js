@@ -16,12 +16,12 @@ router.get('/discord', (req, res, next) => {
 router.get('/discord/callback', (req, res, next) => {
   passport.authenticate('discord', (err, user, info) => {
     if (err) return next(err);
-    if (!user) return res.redirect('https://tenkaistudio.com/login/error'); // Failed auth — redirect error page
+    if (!user) return res.redirect('https://tenkaistudio.com/login/error'); // Failed auth
 
     req.logIn(user, (err) => {
       if (err) return res.redirect('https://tenkaistudio.com/login/error');
 
-      // Ensure session is saved before redirecting
+      // Make sure session is saved before redirecting
       req.session.save((err) => {
         if (err) return res.redirect('https://tenkaistudio.com/login/error');
         return res.redirect('https://tenkaistudio.com/dashboard');
@@ -29,6 +29,7 @@ router.get('/discord/callback', (req, res, next) => {
     });
   })(req, res, next);
 });
+
 
 // Logout
 router.get('/logout', (req, res) => {

@@ -57,6 +57,7 @@ const sessionStore = new MySQLStore({
   database: dbUrl.pathname.replace('/', ''),
 });
 
+app.set('trust proxy', 1);
 // 🛡️ Use session with MySQLStore
 app.use(session({
   key: 'discord.sid',
