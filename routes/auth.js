@@ -32,13 +32,18 @@ router.get('/discord/callback', (req, res, next) => {
 
 
 // Logout
-router.get('/logout', (req, res) => {
-  req.logout(() => {
-    req.session.destroy(() => {
+router.get('/logout', (req, res, next) => {
+  req.logout(err => {
+    if (err) return next(err);
+    req.session.destroy(err => {
+      if (err) return next(err);
+      // Clear the cookie (adjust name if different)
+      res.clearCookie('discord.sid', { path: '/' });
       res.redirect('https://tenkaistudio.com/');
     });
   });
 });
+
 
 // User info (protected)
 router.get('/user', (req, res) => {
