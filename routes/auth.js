@@ -23,7 +23,7 @@ router.get('/discord/callback', (req, res, next) => {
       if (err) return res.redirect('http://tenkaistudio.com/login/error');  // Handle login failure similarly
 
       // ✅ Force redirect to dashboard
-      return res.redirect('http://tenkaistudio.com/dashboard');
+      return res.redirect('/');
     });
   })(req, res, next);
 });
