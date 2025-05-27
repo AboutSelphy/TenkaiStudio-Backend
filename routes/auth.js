@@ -37,12 +37,17 @@ router.get('/logout', (req, res, next) => {
     if (err) return next(err);
     req.session.destroy(err => {
       if (err) return next(err);
-      // Clear the cookie (adjust name if different)
-      res.clearCookie('discord.sid', { path: '/' });
+      res.clearCookie('discord.sid', {
+  path: '/',
+  domain: 'yourdomain.com', // if set originally
+  secure: true,             // if set originally
+  httpOnly: true,           // usually true for session cookies
+});
       res.redirect('https://tenkaistudio.com/');
     });
   });
 });
+
 
 
 // User info (protected)
