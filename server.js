@@ -92,3 +92,11 @@ connectToDatabase().then(async () => {
     console.log(`🚀 Server running at http://localhost:${PORT}`);
   });
 });
+app.use((req, res, next) => {
+  console.log('--- Incoming Request ---');
+  console.log('Method:', req.method);
+  console.log('URL:', req.originalUrl);
+  console.log('Origin:', req.headers.origin);
+  console.log('Cookies:', req.headers.cookie);
+  next();
+});
