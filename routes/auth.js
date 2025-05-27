@@ -24,7 +24,7 @@ router.get('/discord/callback', (req, res, next) => {
       // Ensure session is saved before redirecting
       req.session.save((err) => {
         if (err) return res.redirect('https://tenkaistudio.com/login/error');
-        return res.redirect('https://tenkaistudio.com/');
+        return res.redirect('https://tenkaistudio.com/dashboard');
       });
     });
   })(req, res, next);
