@@ -39,7 +39,7 @@ router.get('/logout', (req, res, next) => {
       if (err) return next(err);
       res.clearCookie('discord.sid', {
   path: '/',
-  domain: 'yourdomain.com', // if set originally
+  domain: '.tenkaistudio.com',// if set originally
   secure: true,             // if set originally
   httpOnly: true,           // usually true for session cookies
 });

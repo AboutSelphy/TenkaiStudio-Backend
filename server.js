@@ -69,6 +69,7 @@ app.use(session({
   maxAge: 1000 * 60 * 60 * 24 * 3,
   secure: true,
   httpOnly: true,
+  path: '/',
   domain: '.tenkaistudio.com',
   sameSite: 'none' // ✅ IMPORTANT for cross-domain
 }
