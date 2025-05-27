@@ -38,15 +38,18 @@ router.get('/logout', (req, res, next) => {
     req.session.destroy(err => {
       if (err) return next(err);
       res.clearCookie('discord.sid', {
-  path: '/',
-  domain: '.tenkaistudio.com',// if set originally
-  secure: true,             // if set originally
-  httpOnly: true,           // usually true for session cookies
-});
-      res.redirect('https://tenkaistudio.com/');
+        path: '/',
+        domain: '.tenkaistudio.com', // adjust if needed, or remove if not set originally
+        secure: true,                 // set true if using HTTPS
+        httpOnly: true,
+        sameSite: 'none',              // or 'none' if cross-site and secure
+      });
+      // Don't redirect here since you want to handle redirect client-side
+      res.status(200).json({ message: 'Logged out' });
     });
   });
 });
+
 
 
 
